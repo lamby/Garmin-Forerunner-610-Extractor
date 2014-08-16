@@ -140,8 +140,10 @@ class Garmin(Application):
         uploading   = filter(lambda name: name not in map(self.get_filename,
                              remote_files), local_files)
 
-        if 'JUST_LATEST' in os.environ:
-            downloading = downloading[-1:]
+        try:
+            downloading = downloading[-int(os.environ['JUST_LATEST']):]
+        except (KeyError, ValueError):
+            pass
 
         print "Downloading", len(downloading), "file(s)"
         # TODO "and uploading", len(uploading), "file(s)"
