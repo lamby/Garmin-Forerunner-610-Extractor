@@ -176,7 +176,7 @@ class Garmin(Application):
             sys.stdout.write("\rDownloading " + self.get_filename(fil) + " [")
             sys.stdout.write("." * current_width)
             sys.stdout.write(" " * (total_width - current_width))
-            sys.stdout.write("]")
+            sys.stdout.write("] (%d%%)" % (new_progress * 100))
         data = self.download(fil.get_index(), callback)
         with open(self.get_filepath(fil), "w") as fd:
             data.tofile(fd)
