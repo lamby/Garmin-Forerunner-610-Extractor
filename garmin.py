@@ -169,22 +169,19 @@ class Garmin(Application):
 
 
     def download_file(self, fil):
-
-        sys.stdout.write("Downloading " + self.get_filename(fil) + " [")
-        sys.stdout.flush()
         def callback(new_progress):
-            diff = int(new_progress * 10.0) - int(callback.progress * 10.0)
-            sys.stdout.write("." * diff)
-            sys.stdout.flush()
-            callback.progress = new_progress
-        callback.progress = 0.0
+            total_width = 10
+            current_width = int(new_progress * total_width)
+
+            sys.stdout.write("\rDownloading " + self.get_filename(fil) + " [")
+            sys.stdout.write("." * current_width)
+            sys.stdout.write(" " * (total_width - current_width))
+            sys.stdout.write("]")
         data = self.download(fil.get_index(), callback)
         with open(self.get_filepath(fil), "w") as fd:
             data.tofile(fd)
-        sys.stdout.write("]\n")
-        sys.stdout.flush()
-        
         self.scriptr.run_download(self.get_filepath(fil))
+        sys.stdout.write("\n")
 
 
 def main():
