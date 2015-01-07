@@ -170,7 +170,7 @@ class Garmin(Application):
 
     def download_file(self, fil):
         def callback(new_progress):
-            total_width = 10
+            total_width = 30
             current_width = int(new_progress * total_width)
 
             sys.stdout.write("\rDownloading " + self.get_filename(fil) + " [")
